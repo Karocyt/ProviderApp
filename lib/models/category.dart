@@ -4,8 +4,8 @@ class Category {
   final String id, title;
   final Color color;
   const Category({
-    this.id,
-    this.title,
-    this.color,
+    @required this.id,
+    @required this.title,
+    this.color = Colors.orange,
   });
 }
