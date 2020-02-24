@@ -18,7 +18,10 @@ class CategoryMealsScreen extends StatelessWidget {
         title: Text(args['title']),
       ),
       body: Center(
-        child: Text('Recipes'), // placeholder
+        child: ListView.builder(itemBuilder: (ctx, index) {
+          return Text('Recipe');
+        },
+        itemCount: 18,),
       ),
     );
   }
