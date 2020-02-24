@@ -8,15 +8,12 @@ class CategoryWidget extends StatelessWidget {
   static const double _borderRadius = 15;
 
   void selectCategory(BuildContext ctx) {
-    Navigator.of(ctx).push(
-      MaterialPageRoute(
-        builder: (_ /*context*/) {
-          return CategoryMealsScreen(
-            title: title,
-            id: id,
-          );
-        },
-      ),
+    Navigator.of(ctx).pushNamed(
+      '/category-meals',
+      arguments: {
+        'id': id,
+        'title': title,
+      },
     );
   }
 
