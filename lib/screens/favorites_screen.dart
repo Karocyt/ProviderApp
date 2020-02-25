@@ -12,7 +12,7 @@ class FavoritesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _favorites.isEmpty
-        ? Center(child: Text('You have no Favorites yet!'))
+        ? Center(child: Text('You have no Favorites yet, try to add some!'))
         : ListView.builder(
             itemBuilder: (ctx, index) {
               return MealCard(_favorites[index], _removeMeal);
