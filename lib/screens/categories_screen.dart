@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import '../dummy-data.dart';
 import '../widgets/category_widget.dart';
 
-class CategoriesScreen extends StatefulWidget {
-  @override
-  _CategoriesScreenState createState() => _CategoriesScreenState();
-}
+class CategoriesScreen extends StatelessWidget {
 
-class _CategoriesScreenState extends State<CategoriesScreen> {
+  const CategoriesScreen();
+
   @override
   Widget build(BuildContext context) {
     return GridView(
