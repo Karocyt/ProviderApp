@@ -25,6 +25,7 @@ class _MyAppState extends State<MyApp> {
     'vegetarian': false,
   };
   bool _inited = false;
+  List<Meal> _favorites = [];
 
   @override
   initState() {
@@ -57,6 +58,18 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  bool _isFavorite(Meal meal) {
+    return _favorites.contains(meal);
+  }
+
+  void _toggleFavorite(Meal meal) {
+    final existingIndex = _favorites.indexWhere((item) => item == meal);
+    if (existingIndex >= 0)
+      setState(() => _favorites.removeAt(existingIndex));
+    else
+      setState(() => _favorites.add(meal));
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -80,13 +93,13 @@ class _MyAppState extends State<MyApp> {
               ),
             ),
       ),
-      home: TabsScreen(), // equivalent to having a '/' named route
+      home: TabsScreen(_favorites, _deleteMeal), // equivalent to having a '/' named route
       //initialRoute: CategoryMealsScreen.route, // if no home specified and no '/' route
       routes: {
         //'/': (_) => CategoriesScreen(),
         CategoryMealsScreen.route: (_) => CategoryMealsScreen(
             meals, _deleteMeal), //the url-like path is just a convention
-        MealDetailsScreen.route: (_) => MealDetailsScreen(),
+        MealDetailsScreen.route: (_) => MealDetailsScreen(_toggleFavorite, _isFavorite),
         FiltersScreen.route: (_) => FiltersScreen(_filters, _setFilters),
       },
       onGenerateRoute: (settings) {

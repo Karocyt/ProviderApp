@@ -4,8 +4,9 @@ import '../models/meal.dart';
 
 class MealDetailsScreen extends StatelessWidget {
   static const String route = '/meal-details';
+  final Function _toggleFavorite, _isFavorite;
 
-  MealDetailsScreen();
+  MealDetailsScreen(this._toggleFavorite, this._isFavorite);
 
   Widget _buildTitle(BuildContext context, String title) {
     return Container(
@@ -86,12 +87,26 @@ class MealDetailsScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildFavoriteButton(meal) {
+    return GestureDetector(
+      child: Icon(_isFavorite(meal) ? Icons.star : Icons.star_border),
+      onTap: () {
+        _toggleFavorite(meal);
+        
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final Meal meal = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         title: Text(meal.title),
+        actions: <Widget>[
+          _buildFavoriteButton(meal),
+          SizedBox(width: 10),
+        ],
       ),
       body: _buildBody(context, meal),
       floatingActionButton: FloatingActionButton(
