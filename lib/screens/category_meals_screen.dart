@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
-import '../dummy-data.dart';
 import '../widgets/meal_card.dart';
 import '../models/meal.dart';
 
 class CategoryMealsScreen extends StatefulWidget {
   static const String route = '/category-meals';
+  final List<Meal> _meals;
+  final Function _deleteMeal;
+
+  CategoryMealsScreen(this._meals, this._deleteMeal);
 
   @override
   _CategoryMealsScreenState createState() => _CategoryMealsScreenState();
@@ -23,23 +26,14 @@ class _CategoryMealsScreenState extends State<CategoryMealsScreen> {
       final Map<String, String> args =
           ModalRoute.of(context).settings.arguments;
       categorytitle = args['title'];
-      meals = DUMMY_MEALS
+      meals = widget._meals
           .where((item) => item.categories.contains(args['id']))
           .toList();
-      _inited = true;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-
-    // doesn't survive a fullr eload of the category
-    // (would need to lift the state up to the categories screen)
-    // but you get the idea
-    void _deleteMeal(toDelete) {
-      setState(() => meals.remove(toDelete));
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: Text(categorytitle),
@@ -47,7 +41,7 @@ class _CategoryMealsScreenState extends State<CategoryMealsScreen> {
       body: Center(
         child: ListView.builder(
           itemBuilder: (ctx, index) {
-            return MealCard(meals[index], _deleteMeal);
+            return MealCard(meals[index], widget._deleteMeal);
           },
           itemCount: meals.length,
         ),

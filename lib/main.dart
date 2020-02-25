@@ -5,9 +5,58 @@ import './screens/meal_details_screen.dart';
 import './screens/tabs_screen.dart';
 import './screens/filters_screen.dart';
 
+import './dummy-data.dart';
+import './models/meal.dart';
+
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  List<Meal> startingMeals = DUMMY_MEALS;
+  List<Meal> meals;
+  Map<String, bool> _filters = {
+    'glutenFree': false,
+    'lactoseFree': false,
+    'vegan': false,
+    'vegetarian': false,
+  };
+  bool _inited = false;
+
+  @override
+  initState() {
+    super.initState();
+    if (!_inited) {
+      meals = startingMeals;
+      _inited = true;
+    }
+  }
+
+  void _deleteMeal(toDelete) {
+    setState(() {
+      startingMeals.remove(toDelete);
+      _setFilters(_filters);
+    });
+  }
+
+  void _setFilters(Map<String, bool> filterData) {
+    setState(() {
+      _filters = filterData;
+      meals = startingMeals.where((meal) {
+        if ((_filters['glutenFree'] && !meal.isGlutenFree) ||
+            (_filters['lactoseFree'] && !meal.isLactoseFree) ||
+            (_filters['vegan'] && !meal.isVegan) ||
+            (_filters['vegetarian'] && !meal.isVegetarian)) {
+          return false;
+        }
+        return true;
+      }).toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -35,10 +84,10 @@ class MyApp extends StatelessWidget {
       //initialRoute: CategoryMealsScreen.route, // if no home specified and no '/' route
       routes: {
         //'/': (_) => CategoriesScreen(),
-        CategoryMealsScreen.route: (_) =>
-            CategoryMealsScreen(), //the url-like path is just a convention
+        CategoryMealsScreen.route: (_) => CategoryMealsScreen(
+            meals, _deleteMeal), //the url-like path is just a convention
         MealDetailsScreen.route: (_) => MealDetailsScreen(),
-        FiltersScreen.route: (_) => FiltersScreen(),
+        FiltersScreen.route: (_) => FiltersScreen(_filters, _setFilters),
       },
       onGenerateRoute: (settings) {
         // trigger on undefined named route, builds a dynamic page with args

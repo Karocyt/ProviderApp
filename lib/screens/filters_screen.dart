@@ -2,16 +2,26 @@ import 'package:flutter/material.dart';
 
 class FiltersScreen extends StatefulWidget {
   static const String route = '/filters';
+  final Function _setFilters;
+  final Map<String, bool> _filters;
+
+  FiltersScreen(this._filters, this._setFilters);
 
   @override
   _FiltersScreenState createState() => _FiltersScreenState();
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  bool _glutenFree = false,
-      _vegan = false,
-      _vegetarian = false,
-      _lactoseFree = false;
+  bool _glutenFree, _vegan, _vegetarian, _lactoseFree;
+
+  @override
+  initState() {
+    super.initState();
+    _glutenFree = widget._filters['glutenFree'];
+    _vegan = widget._filters['vegan'];
+    _vegetarian = widget._filters['vegetarian'];
+    _lactoseFree = widget._filters['lactoseFree'];
+  }
 
   Widget _buildSwitchTile(
       String title, bool value, Function(bool) onChanged, String subtitle) {
@@ -28,6 +38,22 @@ class _FiltersScreenState extends State<FiltersScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Settings'),
+        actions: <Widget>[
+          GestureDetector(
+            child: Icon(Icons.check),
+            onTap: () {
+              widget._setFilters({
+                'glutenFree': _glutenFree,
+                'lactoseFree': _lactoseFree,
+                'vegan': _vegan,
+                'vegetarian': _vegetarian,
+              });
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            },
+          ),
+          SizedBox(width: 10),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
