@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import '../screens/meal_details_screen.dart';
+
 import '../models/meal.dart';
 
 class MealCard extends StatelessWidget {
@@ -7,13 +10,37 @@ class MealCard extends StatelessWidget {
 
   const MealCard(this.meal);
 
-  void selectMeal() {}
+  Widget get affordabilityWidget {
+    List<Widget> l = [];
+    const icon = Icon(Icons.euro_symbol);
+    for (int i = 0; i <= meal.affordability.index; i++) {
+      l.add(icon);
+    }
+    return Row(children: l);
+  }
+
+  Widget get complexityText {
+    switch (meal.complexity) {
+      case Complexity.Simple:
+        return const Text('Simple');
+      case Complexity.Challenging:
+        return const Text('Challenging');
+      case Complexity.Hard:
+        return const Text('Hard');
+    }
+    return Container(); // to shutdown warning
+  }
+
+  void selectMeal(context) => Navigator.of(context).pushNamed(
+        MealDetailsScreen.route,
+        arguments: meal,
+      );
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(_borderRadius),
-      onTap: selectMeal,
+      onTap: () => selectMeal(context),
       child: Card(
         margin: const EdgeInsets.all(10),
         elevation: 9,
@@ -72,22 +99,20 @@ class MealCard extends StatelessWidget {
                   Row(
                     children: <Widget>[
                       Icon(Icons.schedule),
-                      SizedBox(width: 10,),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Text('${meal.duration} min'),
                     ],
                   ),
-                  Row(
-                    children: <Widget>[
-                      Icon(Icons.euro_symbol),
-                      SizedBox(width: 10,),
-                      Text('${meal.duration} min'),
-                    ],
-                  ),
+                  affordabilityWidget,
                   Row(
                     children: <Widget>[
                       Icon(Icons.pan_tool),
-                      SizedBox(width: 10,),
-                      Text('${meal.duration} min'),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      complexityText,
                     ],
                   ),
                 ],
