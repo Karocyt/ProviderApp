@@ -11,22 +11,23 @@ class TabsScreen extends StatefulWidget {
 class _TabsScreenState extends State<TabsScreen> {
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Meals'),
-          bottom: TabBar(
-            tabs: <Widget>[
-              Tab(icon: Icon(Icons.category), text: 'Categories'),
-              Tab(icon: Icon(Icons.star), text: 'Favorites'),
-            ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Meals'),
+      ),
+      body: null,
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.category),
+            title: Text('Categories'),
           ),
-        ),
-        body: TabBarView(children: <Widget>[
-          CategoriesScreen(),
-          FavoritesScreen(),
-        ],),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.star),
+            title: Text('Favorites'),
+          ),
+        ],
       ),
     );
   }
