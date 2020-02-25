@@ -16,7 +16,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  List<Meal> startingMeals = DUMMY_MEALS;
+  List<Meal> startingMeals = DUMMY_MEALS.toList(); // .toList() to get rid of const
   List<Meal> meals;
   Map<String, bool> _filters = {
     'glutenFree': false,
