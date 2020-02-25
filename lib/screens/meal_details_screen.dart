@@ -10,7 +10,10 @@ class MealDetailsScreen extends StatelessWidget {
   Widget _buildTitle(BuildContext context, String title) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
-      child: Text(title, style: Theme.of(context).textTheme.title),
+      child: Text(
+        title,
+        style: Theme.of(context).textTheme.title,
+      ),
     );
   }
 
@@ -91,6 +94,12 @@ class MealDetailsScreen extends StatelessWidget {
         title: Text(meal.title),
       ),
       body: _buildBody(context, meal),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.delete),
+        onPressed: () {
+          Navigator.of(context).pop(meal);
+        },
+      ),
     );
   }
 }

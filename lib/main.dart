@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import './screens/category_meals_screen.dart';
 import './screens/meal_details_screen.dart';
 import './screens/tabs_screen.dart';
+import './screens/filters_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
         CategoryMealsScreen.route: (_) =>
             CategoryMealsScreen(), //the url-like path is just a convention
         MealDetailsScreen.route: (_) => MealDetailsScreen(),
+        FiltersScreen.route: (_) => FiltersScreen(),
       },
       onGenerateRoute: (settings) {
         // trigger on undefined named route, builds a dynamic page with args

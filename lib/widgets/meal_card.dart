@@ -6,9 +6,10 @@ import '../models/meal.dart';
 
 class MealCard extends StatelessWidget {
   final Meal meal;
+  final Function removeMeal;
   static const double _borderRadius = 15;
 
-  const MealCard(this.meal);
+  const MealCard(this.meal, this.removeMeal);
 
   Widget get affordabilityWidget {
     List<Widget> l = [];
@@ -31,10 +32,15 @@ class MealCard extends StatelessWidget {
     return Container(); // to shutdown warning
   }
 
-  void selectMeal(context) => Navigator.of(context).pushNamed(
-        MealDetailsScreen.route,
-        arguments: meal,
-      );
+  void selectMeal(context) {
+    Navigator.of(context).pushNamed(
+      MealDetailsScreen.route,
+      arguments: meal,
+    ).then((mealToDelete) {
+      if (mealToDelete != null)
+        removeMeal(mealToDelete);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
